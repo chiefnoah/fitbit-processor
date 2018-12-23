@@ -1,0 +1,39 @@
+FROM golang:1.11-alpine3.8 AS builder
+
+MAINTAINER Noah Pederson
+EXPOSE 8008
+
+# Install some dependencies needed to build the project
+RUN apk add bash ca-certificates git gcc g++ libc-dev
+
+FROM builder AS build
+
+RUN mkdir /build
+
+COPY . /build
+
+WORKDIR /build/cmd/discordworker
+
+ENV GO111MODULES on
+RUN go mod download
+RUN go build
+
+FROM alpine:3.8 AS runner
+
+
+RUN mkdir /app
+RUN apk add ca-certificates
+
+
+RUN addgroup -g 1000 app && \
+    adduser -D -h /app -u 1000 -G app app
+
+RUN chown app:app /app
+
+USER app
+
+WORKDIR /app
+
+COPY --from=build /build/cmd/discordworker/discordworker /app/discordworker
+
+ENTRYPOINT [ "./discordworker" ]

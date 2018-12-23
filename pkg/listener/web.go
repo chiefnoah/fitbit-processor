@@ -42,11 +42,9 @@ func (s *Service) HandleFitbitNotification(w http.ResponseWriter, r *http.Reques
 		http.Error(w, "Invalid JSON request", http.StatusBadRequest)
 		return
 	}
-	for _, noticiation := range notifications {
-		err = s.PublishNotification(&noticiation)
-		if err != nil {
-			log.Printf("Error queuing notification: %s", err.Error())
-		}
+	err = s.PublishNotifications(&notifications)
+	if err != nil {
+		log.Printf("Error queuing notification: %s", err.Error())
 	}
 	w.WriteHeader(http.StatusNoContent)
 }

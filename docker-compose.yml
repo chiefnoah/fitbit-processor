@@ -1,0 +1,54 @@
+---
+version: "3.7"
+
+services:
+  fitbit-listener:
+    image: "fitbit-listener:latest"
+    build:
+      context: .
+      dockerfile: Dockerfile.listener
+    expose:
+      - "8008"
+    ports:
+      - "8008:8008"
+    restart: always
+    environment:
+      - NATS_HOST=nats-main 
+      - SUBSCRIBER_VERIFICATION_CODE=valid
+    depends_on:
+      - nats-main
+    networks:
+      - fitbit
+  fitbit-worker:
+    image: "fitbit-worker:latest"
+    build:
+      context: .
+      dockerfile: Dockerfile.worker
+    restart: always
+    depends_on:
+      - nats-main
+    environment:
+      - NATS_HOST=nats-main
+    networks:
+      - fitbit 
+  fitbit-discordworker:
+    image: "fitbit-discordworker:latest"
+    build:
+      context: .
+      dockerfile: Dockerfile.discordworker
+    restart: always
+    depends_on:
+      - nats-main
+    environment:
+      - NATS_HOST=nats-main
+      - "DISCORD_WEBHOOK_URL=https://discordapp.com/api/webhooks/526498412334415874/_j21Nj8RMDAHLvpMvKvwpdzagmPZl5hEV5v4xIpyNM2SXKF3Rx0EvbURS1xJNlFLIRjT"
+    networks:
+      - fitbit 
+  nats-main:
+    image: "nats:1.3.0-linux"
+    restart: always
+    networks:
+       - fitbit
+networks:
+  fitbit: 
+    external: false

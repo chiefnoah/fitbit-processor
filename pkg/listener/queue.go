@@ -33,3 +33,8 @@ func (s *Service) Cleanup() {
 func (s *Service) PublishNotification(n *common.FitBitNotification) error {
 	return s.q.Publish(common.NatsQueueName, n)
 }
+
+//PublishNotifications sends a fitbit notification to the queue for processing
+func (s *Service) PublishNotifications(n *[]common.FitBitNotification) error {
+	return s.q.Publish(common.NatsQueueName, n)
+}
