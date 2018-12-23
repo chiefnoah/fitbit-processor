@@ -1,0 +1,56 @@
+kind: pipeline
+name: default
+
+steps:
+  # This is broken right now
+  - name: docker-ci-listener
+    image: plugins/docker
+    settings:
+      dockerfile: "Dockerfile.listener"
+      tags:
+      - latest
+      auto_tag: true
+      repo: registry.packetlostandfound.us/chiefnoah/fitbit-listener
+      registry: registry.packetlostandfound.us
+      username:
+        from_secret: docker_username
+      password:
+        from_secret: docker_password
+    when:
+      event: [deployment, push]
+      branches: [master, develop]
+
+  - name: docker-ci-worker
+    image: plugins/docker
+    settings:
+      dockerfile: "Dockerfile.worker"
+      tags:
+      - latest
+      auto_tag: true
+      repo: registry.packetlostandfound.us/chiefnoah/fitbit-worker
+      registry: registry.packetlostandfound.us
+      username:
+        from_secret: docker_username
+      password:
+        from_secret: docker_password
+    when:
+      event: [deployment, push]
+      branches: [master, develop]
+
+  - name: docker-ci-discordworker
+    image: plugins/docker
+    settings:
+      dockerfile: "Dockerfile.discordworker"
+      tags:
+      - latest
+      auto_tag: true
+      repo: registry.packetlostandfound.us/chiefnoah/fitbit-discordworker
+      registry: registry.packetlostandfound.us
+      username:
+        from_secret: docker_username
+      password:
+        from_secret: docker_password
+    when:
+      event: [deployment, push]
+      branches: [master, develop]
+      
