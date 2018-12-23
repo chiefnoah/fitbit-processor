@@ -41,7 +41,7 @@ services:
       - nats-main
     environment:
       - NATS_HOST=nats-main
-      - "DISCORD_WEBHOOK_URL=https://discordapp.com/api/webhooks/526498412334415874/_j21Nj8RMDAHLvpMvKvwpdzagmPZl5hEV5v4xIpyNM2SXKF3Rx0EvbURS1xJNlFLIRjT"
+      - "DISCORD_WEBHOOK_URL="
     networks:
       - fitbit 
   nats-main:
