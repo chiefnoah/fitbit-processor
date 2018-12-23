@@ -26,12 +26,12 @@ func (s *Service) HandleFitbitNotification(w http.ResponseWriter, r *http.Reques
 			w.WriteHeader(http.StatusNoContent)
 			w.Write([]byte("Valid"))
 			return
-		} else {
-			log.Println("Verifying bad!")
-			w.WriteHeader(http.StatusNotFound)
-			w.Write([]byte("Invalid"))
-			return
 		}
+		log.Println("Verifying bad!")
+		w.WriteHeader(http.StatusNotFound)
+		w.Write([]byte("Invalid"))
+		return
+
 	}
 	decoder := json.NewDecoder(r.Body)
 	defer r.Body.Close()
