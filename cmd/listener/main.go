@@ -11,12 +11,19 @@ import (
 
 func main() {
 	port := os.Getenv("HTTP_PORT")
+	natsHost := os.Getenv("NATS_HOST")
 	if port == "" {
 		port = "8008"
 	}
-	listerService := listener.Service{
+	listenerService := listener.Service{
 		SubscriberVerificationCode: os.Getenv("SUBSCRIBER_VERIFICATION_CODE"),
 	}
-	http.HandleFunc("/webhook", listerService.HandleFitbitNotification)
+
+	err := listenerService.InitQueue(natsHost)
+	if err != nil {
+		log.Fatalf("Unable to connect to queue: %s", err.Error())
+	}
+	defer listenerService.Cleanup()
+	http.HandleFunc("/webhook", listenerService.HandleFitbitNotification)
 	log.Fatal(http.ListenAndServe(fmt.Sprintf(":%s", port), nil))
 }
