@@ -17,8 +17,10 @@ steps:
       password:
         from_secret: docker_password
     when:
-      event: [deployment, push]
-      branches: [master, develop]
+      event: 
+      - push
+      branches: 
+      - master
 
   - name: docker-ci-worker
     image: plugins/docker
@@ -34,8 +36,10 @@ steps:
       password:
         from_secret: docker_password
     when:
-      event: [deployment, push]
-      branches: [master, develop]
+      event: 
+      - push
+      branches: 
+      - master
 
   - name: docker-ci-discordworker
     image: plugins/docker
@@ -51,6 +55,8 @@ steps:
       password:
         from_secret: docker_password
     when:
-      event: [deployment, push]
-      branches: [master, develop]
+      event: 
+      - push
+      branches: 
+      - master
       
