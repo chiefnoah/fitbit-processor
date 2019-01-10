@@ -1,5 +1,5 @@
+[![Build Status](https://cloud.drone.io/api/badges/chiefnoah/fitbit-processor/status.svg)](https://cloud.drone.io/chiefnoah/fitbit-processor)
 
-[![Build Status](https://build.packetlostandfound.us/api/badges/chiefnoah/fitbit-processor/status.svg)](https://build.packetlostandfound.us/chiefnoah/fitbit-processor)
 
 # fitbit-processor
 
