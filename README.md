@@ -3,4 +3,4 @@
 
 # fitbit-processor
 
-A service meant to handle fitbit data events and store them in an database
+A service meant to handle fitbit data events and store them in an database. The database part isn't done yet.
